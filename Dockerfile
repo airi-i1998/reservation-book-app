@@ -3,13 +3,15 @@ FROM node:20.12-alpine3.18
 WORKDIR /app
 
 RUN apk update
-# グローバルにアプリケーションをバックグラウンドで実行
 RUN npm install -g pm2
+
 # package.jsonとyarn.lockをコピーして依存関係をインストール
 COPY package.json yarn.lock ./
 RUN yarn install
+
 # アプリケーションのソースコードをコピー
 COPY . .
+
 # Prisma Clientの生成
 RUN npx prisma generate
 
