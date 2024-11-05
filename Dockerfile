@@ -16,7 +16,6 @@ COPY . .
 RUN npx prisma generate
 
 RUN yarn global add @nestjs/cli
-# RUN yarn build
 
 EXPOSE 3000
 
