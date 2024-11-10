@@ -1,0 +1,79 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    tty: true
+    volumes:
+      - .:/workspace
+      - frontend_node_modules:/workspace/frontend/node_modules
+    environment:
+      SERVER_IP: $SERVER_IP
+    ports:
+      - '8000:8000'
+    networks:
+      weticket_net:
+        ipv4_address: $CLIENT_IP
+
+  server:
+    build:
+      context: ./server
+    volumes:
+      - '.:/workspace'
+      - server_node_modules:/workspace/server/node_modules
+    environment:
+      TZ: UTC
+      DATABASE_URL: 'mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${DB_HOST}:3306/${MYSQL_DATABASE}'
+    ports:
+      - '3000:3000'
+      - '9000:9000'
+      - '9229:9229'
+    networks:
+      weticket_net:
+        ipv4_address: $SERVER_IP
+    # backendを起動する際はDBも起動する
+    depends_on:
+      - db
+      # - redis
+
+  db:
+    platform: linux/arm64/v8
+    image: mysql:8.0.33
+    volumes:
+      - './db/data:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_AUTHENTICATION_PLUGIN: caching_sha2_password
+    ports:
+      - '3306:3306'
+    networks:
+      weticket_net:
+        ipv4_address: $DB_HOST
+    command: >
+      bash -c "
+        echo \"CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
+        CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+        GRANT ALL PRIVILEGES ON *.* TO '${MYSQL_USER}'@'%' WITH GRANT OPTION;
+        FLUSH PRIVILEGES;\" > /docker-entrypoint-initdb.d/init.sql &&
+        docker-entrypoint.sh mysqld"
+
+  redis:
+    image: redis:7.2.5
+    ports:
+      - '6379:6379'
+    networks:
+      weticket_net:
+        ipv4_address: $REDIS_IP
+
+networks:
+  weticket_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: $SUBNET
+volumes:
+  frontend_node_modules:
+  server_node_modules:
