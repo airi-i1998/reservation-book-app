@@ -6,7 +6,7 @@ import { BookDto } from "./book-register.dto";
 export class BookRegisterRepository {
   constructor(private readonly prisma: PrismaService) { }
 
-  async registerBook(bookData: BookDto) {
+  async createrBook(bookData: BookDto) {
     return await this.prisma.book.create({ data: bookData })
   }
 }
