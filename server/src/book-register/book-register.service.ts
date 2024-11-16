@@ -8,7 +8,7 @@ export class BookRegisterService {
 
   async registerBook(bookData: BookDto) {
     try {
-      const book = await this.bookRegisterRepository.registerBook(bookData)
+      const book = await this.bookRegisterRepository.createrBook(bookData)
       return book
     } catch(e) {
       return null
