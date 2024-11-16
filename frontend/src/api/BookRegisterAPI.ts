@@ -7,11 +7,11 @@ export const useBookRegisterAPI = () => {
 
   const bookRegister = async (bookData: Book) => {
     try {
-      await axios.post("/api/book-register", bookData);
+      await axios.post('/api/book-register', bookData)
     } catch (e) {
-      error.value = e as AxiosError;
+      error.value = e as AxiosError
     }
-  };
+  }
 
   return bookRegister
 }
