@@ -7,11 +7,6 @@ export class BookBorrowService {
   constructor(private readonly bookBorrowRepository: BookBorrowRepository) { }
 
   async borrowBook(borrowerData: BookBorrowDto) {
-    try {
-      const book = this.bookBorrowRepository.createBorrowBookRecord(borrowerData)
-      return book
-    } catch (e) {
-      return null
-    }
+    return this.bookBorrowRepository.createBorrowBookRecord(borrowerData)
   }
 }
