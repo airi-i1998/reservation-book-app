@@ -9,6 +9,10 @@ RUN apk update && \
 
 COPY ["package.json", "yarn.lock", "./"]
 
+# もしnode_modulesが存在する場合に削除する
+RUN rm -rf node_modules
+
+# 依存関係をインストール
 RUN yarn install
 COPY . .
 
