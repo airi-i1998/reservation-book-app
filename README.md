@@ -34,6 +34,11 @@ cd server
 npm install
 # 環境変数を設定
 cp .env.example .env
+
+# Prisma セットアップ
+npm install prisma
+npx prisma init
+
 # Prisma のデータベースマイグレーション
 npx prisma migrate dev
 ```
