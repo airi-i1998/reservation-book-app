@@ -7,6 +7,6 @@ export class BookBorrowRepository {
   constructor(private readonly prisma: PrismaService) { }
 
   async createBorrowBookRecord(borrowerData: BookBorrowDto) {
-    return await this.prisma.bookBorrow.create({ data: borrowerData })
+    return this.prisma.bookBorrow.create({ data: borrowerData })
   }
 }
