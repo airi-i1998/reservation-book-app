@@ -10,7 +10,7 @@ export class BookRegisterController {
   async registerBook(@Body() bookData: BookDto) {
     try {
       const book = await this.bookRegisterService.registerBook(bookData)
-
+      return book
     } catch(e) {
       Logger.error(e)
       throw new InternalServerErrorException('Failed to register book.')
