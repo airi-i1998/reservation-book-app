@@ -2,10 +2,10 @@ import { ref } from "vue"
 import axios, { AxiosError } from "axios"
 import { User } from "../types/User"
 
-export const useRegisterUser = () => {
+export const useAuthenticationApi = () => {
   const error = ref<AxiosError>()
 
-  const registerUser = async (userData: User) => {
+  const signUp = async (userData: User) => {
     try {
       await axios.post('api/user/register', userData)
     } catch (e) {
@@ -13,5 +13,5 @@ export const useRegisterUser = () => {
     }
   }
 
-  return registerUser
+  return signUp
 }

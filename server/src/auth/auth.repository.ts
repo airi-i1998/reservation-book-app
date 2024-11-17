@@ -2,7 +2,7 @@ import { PrismaService } from "@/prisma/prisma.service";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class UserRepository {
+export class AuthRepository {
   constructor(private readonly prisma: PrismaService) { }
 
   async checkEmailDuplicate(email: string) {
@@ -13,9 +13,9 @@ export class UserRepository {
     })
   }
 
-  async createUser(email: string, password: string) {
+  async createUser(firstName: string, lastName: string, email: string, password: string) {
     return this.prisma.user.create({
-      data: { email, password }
+      data: { firstName, lastName, email, password }
     })
   }
 }
