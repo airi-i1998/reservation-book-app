@@ -43,7 +43,7 @@ model BookBorrow {
   userId      Int
   bookId      Int
   status      BookStatus @default(AVAILABLE)
-  borrow_date DateTime
+  borrow_date DateTime   @default(now())
   return_date DateTime?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
