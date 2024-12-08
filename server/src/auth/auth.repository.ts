@@ -18,4 +18,12 @@ export class AuthRepository {
       data: { firstName, lastName, email, password }
     })
   }
+
+  async findUserByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        email
+      }
+    })
+  }
 }
