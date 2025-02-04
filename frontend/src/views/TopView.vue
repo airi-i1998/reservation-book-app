@@ -3,13 +3,17 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const goToBookList = () => {
-  router.push('/book/list')
+  router.push('/book-list')
+}
+
+const goToBookScan = () => {
+  router.push('/book-scan')
 }
 
 const buttons = [
   { name: '書籍貸し出し', color: 'secondary', onclick: goToBookList },
   { name: '書籍返却', color: 'warning', onclick: goToBookList },
-  { name: '書籍登録', color: 'green', onclick: goToBookList },
+  { name: '書籍登録', color: 'green', onclick: goToBookScan },
 ]
 </script>
 
